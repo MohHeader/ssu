@@ -1,7 +1,7 @@
 date   = require 'lang/date'
 extend = require 'lang/extend'
 type   = require 'lang/type'
-{uuid} = require 'lang/uuid'
+{uuid} = require 'lang/UUID'
 Timer  = require 'util/Timer'
 
 Page    = require 'dom/Page'

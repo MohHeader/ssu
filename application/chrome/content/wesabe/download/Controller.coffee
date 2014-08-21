@@ -9,8 +9,8 @@ xhr     = require 'io/xhr'
 Job     = require 'download/Job'
 Logger  = require 'Logger'
 inspect = require 'util/inspect'
-Server  = require 'io/http/Server'
 
+Server  = require 'io/http/server'
 {EventEmitter} = require 'events2'
 {tryCatch, tryThrow} = require 'util/try'
 
