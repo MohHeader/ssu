@@ -27,7 +27,12 @@ wesabe.download.Player.register({
         try {
           var element = page.findByXpath('//input[starts-with(@id,"keyrcc_password_first")]['+i+']')
           if (element.disabled == false) {
-            page.fill(bind(e.login.passwordKey.input, {n: i}),answers.securityKey[i-1] )
+            if(i <= 6)
+              page.fill(bind(e.login.passwordKey.input, {n: i}),answers.securityKey[i-1] )
+            else if( i == 7)
+              page.fill(bind(e.login.passwordKey.input, {n: i}),answers.securityKey[answers.securityKey.length - 2 ] )
+            else if( i == 8)
+              page.fill(bind(e.login.passwordKey.input, {n: i}),answers.securityKey[answers.securityKey.length - 1 ] )
           }else{
             log.warn("Skipping character in security key because: ----------");
           }
@@ -36,6 +41,12 @@ wesabe.download.Player.register({
         }
       }
       page.click(e.login.passwordContinueButton);
+    },
+    go_to_statments_page: function(){
+      browser.go("https://www.hsbc.com.eg/1/3/site-pages/internet-banking/statements-advices/e-statement");
+    },
+    download_statment: function(){
+      page.click(e.statment_page.download);
       job.succeed();
     }
   },
@@ -49,6 +60,10 @@ wesabe.download.Player.register({
       action.login_with_password_page();
     else if (page.present(e.login.passwordKey.statment))
       action.fillpassword_and_login();
+    else if(page.present(e.summary.statment))
+      action.go_to_statments_page();
+    else if(page.present(e.statment_page.statment))
+      action.download_statment();
   },
   elements: {
     login: {
@@ -87,13 +102,13 @@ wesabe.download.Player.register({
     logoff: {
       link: ['//span[contains(string(.),"You are logged on to Internet Banking")]']
     },
-    passwordSecurityKey: [
-      // '/html/body/div[2]/div[6]/div/div[7]/div/div[1]/div/div/div/form/div[2]/div[1]/div/div[2]/div/fieldset[2]/table/tbody/tr/td[2]/div/input'
-      // '//form[@name="inputForm"]//*[has-class("id_key") and string(text())=":n"]',
-      // '//*[has-class("id_key") and string(text())=":n"]',
-      // '//*[string(text())=":n"]'
-      '//input[starts-with(@id,"keyrcc_password_first")])'
-    ]
+    summary:{
+      statment:['//h3[contains(string(.),"Cheque Book/Savings Accounts")]']
+    },
+    statment_page:{
+      statment:['//b[contains(string(.),"Instructions to Download e-Statements")]'],
+      download:['(//span[@title="Click here to Download PDF"])[1]/..']
+    }
   }
 });
 
