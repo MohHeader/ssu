@@ -46,7 +46,8 @@ wesabe.download.Player.register({
       browser.go("https://www.hsbc.com.eg/1/3/site-pages/internet-banking/statements-advices/e-statement");
     },
     download_statment: function(){
-      page.click(e.statment_page.download);
+      // page.click(e.statment_page.download);
+      browser.go("https://www.hsbc.com.eg"+page.findByXpath('(//span[@title="Click here to Download PDF"])[1]/..').getAttribute("href"));
       job.succeed();
     }
   },
@@ -107,7 +108,8 @@ wesabe.download.Player.register({
     },
     statment_page:{
       statment:['//b[contains(string(.),"Instructions to Download e-Statements")]'],
-      download:['(//span[@title="Click here to Download PDF"])[1]/..']
+      download:['(//span[@title="Click here to Download PDF"])[1]/..'],
+      href:['(//span[@title="Click here to Download PDF"])[1]/../@href']
     }
   }
 });
